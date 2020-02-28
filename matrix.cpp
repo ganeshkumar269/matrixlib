@@ -1,6 +1,7 @@
 #include <iostream>
 #include <assert.h>
 #include <algorithm>
+#include <string.h>
 using namespace std;
 typedef pair<int,int> Dim;
 
@@ -21,26 +22,28 @@ class Matrix{
 
         Matrix(Dim dim,T* data):Matrix(dim){this->setData(data);}
 
+        Matrix(int m,int n,T* data):Matrix(m,n){this->setData(data);}
+
         Matrix(int m,int n, T t):Matrix(m,n){this->fill(t);}
 
         ~Matrix(){cout << "Matrix Deleted " << endl;delete[] arr;}
 
+        T operator()(int m,int n)const{return this->getElement(m,n);}
+        T operator()(int m,int n,T t){return this->setElement(m,n,t);}
+
+        T getElement(int m,int n)const {return arr[(m*this->n) + n];}
+        T setElement(int m,int n,T t){arr[(m*this->n) + n] = t; return t;}
+
+        Dim getDim()const {return {this->m,this->n};}
+        Dim setDim(Dim dim){this->m = dim.first;this->n = dim.second;if(allocSize < m*n)allocMem(m*n);return dim;}
+
         T* getData()const {return this->arr;};
+        T* setData(const T* data){copy(data,data+this->m*this->n,this->arr);}
         T* setData(const Matrix<T>& m){
             assert(this->m <= m.getDim().first && this->n <= m.getDim().second);
             assert(this->allocSize <= m.allocSize);
             this->setData(m.getData());
             return this->arr;
-        }
-        T* setData(const T* data){copy(data,data+this->m*this->n,this->arr);}
-
-        Dim getDim()const {return {this->m,this->n};}
-        Dim setDim(Dim dim){
-            this->m = dim.first;
-            this->n = dim.second;
-            if(allocSize < m*n)
-                allocMem(m*n);
-            return dim;
         }
 
         static Matrix nMatrix(int m , int n, T f){Matrix<T> t(m,n,f);return t;}
@@ -48,12 +51,6 @@ class Matrix{
         void allocMem(int size){allocSize = m*n; this->arr = new T[size+1];}
 
         void fill(T t){std::fill(this->arr,arr+this->m*this->n,t);}
-
-        T operator()(int m,int n)const{return this->getElement(m,n);}
-        T operator()(int m,int n,T t){return this->setElement(m,n,t);}
-
-        T getElement(int m,int n)const {return arr[(m*this->n) + n];}
-        T setElement(int m,int n,T t){arr[(m*this->n) + n] = t; return t;}
 
         Matrix operator*(Matrix<T>& t){
             Dim dim1 = this->getDim() , dim2 = t.getDim();
@@ -68,26 +65,31 @@ class Matrix{
                 }
             return temp;
         }
-        friend ostream& operator << (ostream& out, const Matrix<T>& t){
-            t.print(out);
-            return out;
+
+        Matrix& operator+(const Matrix<T>& t){
+            assert(this->getDim() <= t.getDim());
+            transform(this->getData(), this->getData()+this->m*this->n, t.getData(), this->getData(), plus<T>());
+            return *this;
         }
-        Matrix<T>& operator = (const Matrix<T>& t){
-            this->setDim(t.getDim());
-            this->setData(t);
-            *this;
+        Matrix& operator-(const Matrix<T>& t){
+            assert(this->getDim() <= t.getDim());
+            transform(this->getData(), this->getData()+this->m*this->n, t.getData(), this->getData(), minus<T>());
+            return *this;
         }
 
-        void print(ostream& out = std::cout,char sep = ' ',char tip[3] = "  ")const {
+        void print(ostream& out = std::cout,char sep = ' ',string tip = "  ")const {
             Dim dim = this->getDim();
             for(int i = 0;i < dim.first;i++){
                 out << tip[0];
-                for(int j =0; j < dim.second; j++)
+                for(int j =0; j < dim.second-1; j++)
                     out << this->getElement(i,j) << sep;
+                out << this->getElement(i,dim.second-1);
                 out << tip[1] << endl;
             }
         } 
+        friend ostream& operator << (ostream& out, const Matrix<T>& t){t.print(out);return out;}
 
+        Matrix<T>& operator = (const Matrix<T>& t){this->setDim(t.getDim());this->setData(t);return *this;}      
 };
 
 
