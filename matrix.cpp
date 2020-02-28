@@ -69,12 +69,7 @@ class Matrix{
             return temp;
         }
         friend ostream& operator << (ostream& out, const Matrix<T>& t){
-            Dim dim = t.getDim();
-            for(int i = 0;i < dim.first;i++){
-                for(int j =0; j < dim.second; j++)
-                    out << t(i,j) << " ";
-                out << endl;
-            }
+            t.print(out);
             return out;
         }
         Matrix<T>& operator = (const Matrix<T>& t){
@@ -83,7 +78,15 @@ class Matrix{
             *this;
         }
 
-        void print(ostream& out = std::cout){out << *this << endl;} 
+        void print(ostream& out = std::cout,char sep = ' ',char tip[3] = "  ")const {
+            Dim dim = this->getDim();
+            for(int i = 0;i < dim.first;i++){
+                out << tip[0];
+                for(int j =0; j < dim.second; j++)
+                    out << this->getElement(i,j) << sep;
+                out << tip[1] << endl;
+            }
+        } 
 
 };
 
