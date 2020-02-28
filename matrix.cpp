@@ -8,40 +8,28 @@ template <typename T>
 class Matrix{
     private:
         int m,n;
-        T* arr;
-        bool init;
+        T* arr; 
         int allocSize;
     public:
-        Matrix(){
-            m =0;n=0;
-            init = false;
-            allocSize = 0;
-        }
-        Matrix(int m,int n){
-            this->m = m;this->n=n;
-            allocMem(m*n);
-            init = true;
-            allocSize = m*n;
-        }
+        Matrix():m(0),n(0),allocSize(0){}
+
+        Matrix(int m,int n):m(m),n(n){allocMem(m*n);}
         
         Matrix(Dim dim):Matrix(dim.first,dim.second){}
 
-        Matrix(Matrix<T>& t):Matrix(t.getDim()){
-            assert(this->arr != NULL);
-            T* data = t.getData();
-            int total = t.getDim().first*t.getDim().second;
-            copy(data,data+total,this->arr);
-        }
+        Matrix(const Matrix<T>& t):Matrix(t.getDim()){this->setData(t.getData());}
 
-        ~Matrix(){delete[] arr;}
+        Matrix(Dim dim,T* data):Matrix(dim){this->setData(data);}
+
+        Matrix(int m,int n, T t):Matrix(m,n){this->fill(t);}
+
+        ~Matrix(){cout << "Matrix Deleted " << endl;delete[] arr;}
 
         T* getData()const {return this->arr;};
         T* setData(const Matrix<T>& m){
             assert(this->m <= m.getDim().first && this->n <= m.getDim().second);
             assert(this->allocSize <= m.allocSize);
-            T* data = m.getData();
-            int total = m.getDim().first*m.getDim().second;            
-            copy(data,data+total,this->arr);
+            this->setData(m.getData());
             return this->arr;
         }
         T* setData(const T* data){copy(data,data+this->m*this->n,this->arr);}
@@ -55,15 +43,11 @@ class Matrix{
             return dim;
         }
 
-        Matrix nMatrix(int m , int n, T f){
-            Matrix<T> t(m,n);
-            t.fill(f);
-            return t;
-        }
+        static Matrix nMatrix(int m , int n, T f){Matrix<T> t(m,n,f);return t;}
 
-        void allocMem(int size){this->arr = new T[size+1];}
+        void allocMem(int size){allocSize = m*n; this->arr = new T[size+1];}
 
-        void fill(T t){for(int i =0; i < n*m;i++)arr[i] = t;}
+        void fill(T t){std::fill(this->arr,arr+this->m*this->n,t);}
 
         T operator()(int m,int n)const{return this->getElement(m,n);}
         T operator()(int m,int n,T t){return this->setElement(m,n,t);}
@@ -71,7 +55,7 @@ class Matrix{
         T getElement(int m,int n)const {return arr[(m*this->n) + n];}
         T setElement(int m,int n,T t){arr[(m*this->n) + n] = t; return t;}
 
-        Matrix operator * (Matrix<T>& t){
+        Matrix operator*(Matrix<T>& t){
             Dim dim1 = this->getDim() , dim2 = t.getDim();
             assert(dim1.second == dim2.first);
             Matrix<T> temp(dim1.first,dim2.second);
@@ -93,11 +77,14 @@ class Matrix{
             }
             return out;
         }
-        Matrix<T>& operator = (const Matrix<T>& m2){
-            this->setDim(m2.getDim());
-            this->setData(m2);
+        Matrix<T>& operator = (const Matrix<T>& t){
+            this->setDim(t.getDim());
+            this->setData(t);
             *this;
         }
+
+        void print(ostream& out = std::cout){out << *this << endl;} 
+
 };
 
 
