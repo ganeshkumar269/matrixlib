@@ -9,7 +9,7 @@ template <typename T>
 class Matrix{
     private:
         int m,n;
-        T* arr; 
+        T* arr;
         int allocSize;
     public:
         Matrix():m(0),n(0),allocSize(0){}
@@ -26,7 +26,8 @@ class Matrix{
 
         Matrix(int m,int n, T t):Matrix(m,n){this->fill(t);}
 
-        ~Matrix(){cout << "Matrix Deleted " << endl;delete[] arr;}
+        ~Matrix(){cout << "Matrix Deleted " << endl;delete[] arr; cout << "Memory deallocated: "<<allocSize << endl; }
+
 
         T operator()(int m,int n)const{return this->getElement(m,n);}
         T operator()(int m,int n,T t){return this->setElement(m,n,t);}
@@ -38,17 +39,19 @@ class Matrix{
         Dim setDim(Dim dim){this->m = dim.first;this->n = dim.second;if(allocSize < m*n)allocMem(m*n);return dim;}
 
         T* getData()const {return this->arr;};
-        T* setData(const T* data){copy(data,data+this->m*this->n,this->arr);}
-        T* setData(const Matrix<T>& m){
-            assert(this->m <= m.getDim().first && this->n <= m.getDim().second);
-            assert(this->allocSize <= m.allocSize);
-            this->setData(m.getData());
-            return this->arr;
-        }
+        void setData(const T* data){copy(data,data+this->m*this->n,this->arr);}   
 
         static Matrix nMatrix(int m , int n, T f){Matrix<T> t(m,n,f);return t;}
 
-        void allocMem(int size){allocSize = m*n; this->arr = new T[size+1];}
+        void allocMem(int size){
+		allocSize = m*n; 
+		if(this->arr != NULL){
+			cout << "Memory deallocated: "<<allocSize << endl;
+			delete[] arr;
+		}
+		this->arr = new T[size+1];
+		cout << "Memory Allocated: " << size << endl;
+	}
 
         void fill(T t){std::fill(this->arr,arr+this->m*this->n,t);}
 
@@ -89,7 +92,7 @@ class Matrix{
         } 
         friend ostream& operator << (ostream& out, const Matrix<T>& t){t.print(out);return out;}
 
-        Matrix<T>& operator = (const Matrix<T>& t){this->setDim(t.getDim());this->setData(t);return *this;}      
+        Matrix<T>& operator = (const Matrix<T>& t){this->setDim(t.getDim());this->setData(t.getData());return *this;}      
 };
 
 
