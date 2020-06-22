@@ -1,4 +1,6 @@
-*
-!matrix.cpp
-!.gitignore
-!matrix.hpp
+a.out
+in.txt
+test.cpp
+matrix.o
+cust_rand_gen.hpp
+out.txt
