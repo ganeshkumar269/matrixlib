@@ -6,6 +6,7 @@
     #include <string.h>
     #include <random>
     // #include "cust_rand_gen.hpp"
+    #define uint uint32_t
     using namespace std;
     typedef pair<uint32_t,uint32_t> Dim;
     // RandGen randgen; 
@@ -44,10 +45,10 @@
             void fill(T t);
             T getElement(uint32_t m,uint32_t n)const;
             T setElement(uint32_t m,uint32_t n,T t);
-            
-        //Overloads
             T operator()(uint32_t m,uint32_t n)const;
             T operator()(uint32_t m,uint32_t n,T t);
+            
+        //Operations
             Matrix operator*(const Matrix<T>& t);
             Matrix operator+(const Matrix<T>& t);
             Matrix operator+(Matrix<T>&& t);
@@ -55,7 +56,8 @@
             Matrix operator-(Matrix<T>&& t);
 
         //Utils
-            void allocMem(uint32_t size);
+            void alloc(uint32_t size);
+            void dealloc();
             void resize(uint32_t size); //only place where allocMem is called
             uint32_t size()const;
             void print(ostream& out = std::cout,char sep = ' ',string tip = "  ")const; 
@@ -69,10 +71,8 @@
             void inverse(); // inverse of current matrix
             void dot(Matrix& t); //dot product with t (Hadamard product)
             static Matrix Identity(uint32_t n); //return identity matrix of size n 
-            static Matrix<T> transpose(Matrix& t); // return transpose of the argument 
+            static Matrix<T> transpose(const Matrix& t); // return transpose of the argument 
             void transpose(); // transpose of current matrix
-            
-
     };
 #endif
 #include "matrix.cpp"

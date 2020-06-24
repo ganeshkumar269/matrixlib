@@ -62,3 +62,15 @@ void Matrix<T>::operator = (Matrix<T>&& t){
     setData(t.getData());
     t.resetData();
 }      
+template<typename T>
+Matrix<T> Matrix<T>::transpose(const Matrix<T>& t){
+    Dim d = t.getDim();
+    Matrix<T> tempMatrix(d.second,d.first);    
+    for(uint i =0 ;i < d.first;i++)
+    for(uint j =i ;j < d.second;j++){
+        T tmp = t.getElement(i,j);
+        tempMatrix.setElement(i,j,t.getElement(j,i));
+        tempMatrix.setElement(j,i,tmp);
+    }
+    return tempMatrix;
+}

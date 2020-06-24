@@ -17,9 +17,9 @@ void Matrix<T>::setDim(Dim dim){this->m = dim.first;this->n = dim.second;}
 template<typename T>
 T* Matrix<T>::getData()const {return this->arr;};
 template<typename T>
-void Matrix<T>::setData(T*const data){arr = data;}   
+void Matrix<T>::setData(T*const data){dealloc();arr = data;}   
 template<typename T>
-void Matrix<T>::copy(const T* const data){copy(data,data+m*n,arr);}
+void Matrix<T>::copy(const T* const data){std::copy(data,data+m*n,arr);}
 template<typename T>
 void Matrix<T>::resetData(){
     arr = nullptr;

@@ -1,20 +1,23 @@
 template<typename T>
-void Matrix<T>::allocMem(uint32_t size){
+void Matrix<T>::alloc(uint32_t size){
     allocSize = m*n; 
-    if(this->arr != nullptr){
-        if(verbose)cout << "Memory deallocated: "<< allocSize<<" "<< getId()<< endl;
-        delete[] arr;
-    }
+    if(this->arr != nullptr)
+        dealloc();
     this->arr = new T[size+1];
     allocSize=size;
     if(verbose)cout << "Memory Allocated: " << size <<" "<< getId()<< endl;
+}
+template<typename T>
+void Matrix<T>::dealloc(){
+    if(verbose)cout << "Memory deallocated: "<< allocSize<< " "<< getId()<< endl;
+    delete[] arr;
 }
 
 template<typename T>
 void Matrix<T>::resize(uint32_t size){ //only place where allocMem is called
     T* tmp = arr;
     arr = nullptr;
-    allocMem(size);
+    alloc(size);
     if(tmp != nullptr)  copy_n(tmp,m*n < size ? m*n : size,arr);
     delete[] tmp;
 }

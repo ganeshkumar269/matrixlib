@@ -30,12 +30,11 @@ Matrix<T>::Matrix(Matrix<T>&& t):Matrix(t.getDim()){
 template<typename T>
 Matrix<T>::Matrix(Dim dim,T* data):Matrix(dim){this->setData(data);}
 template<typename T>
-Matrix<T>::Matrix(uint32_t m,uint32_t n,T* data):Matrix(m,n){this->setData(data);}
+Matrix<T>::Matrix(uint32_t m,uint32_t n,T* data):Matrix(m,n){this->copy(data);}
 template<typename T>
 Matrix<T>::Matrix(uint32_t m,uint32_t n, T t):Matrix(m,n){fill(t);}
 template<typename T>
 Matrix<T>::~Matrix(){
     if(verbose)cout << "Matrix Deleted " << getId() << endl;
-    delete[] arr; 
-    if(verbose)cout << "Memory deallocated: "<< allocSize << endl; 
+    dealloc(); 
 }
