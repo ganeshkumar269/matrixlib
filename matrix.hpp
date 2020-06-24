@@ -20,6 +20,7 @@
             static int id_gen;
         public:
         //Constructors
+            static bool verbose;
             Matrix();
             Matrix(uint32_t m,uint32_t n);   
             Matrix(Dim dim);

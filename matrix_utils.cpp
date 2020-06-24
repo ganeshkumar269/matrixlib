@@ -2,12 +2,12 @@ template<typename T>
 void Matrix<T>::allocMem(uint32_t size){
     allocSize = m*n; 
     if(this->arr != nullptr){
-        cout << "Memory deallocated: "<< allocSize<<" "<< getId()<< endl;
+        if(verbose)cout << "Memory deallocated: "<< allocSize<<" "<< getId()<< endl;
         delete[] arr;
     }
     this->arr = new T[size+1];
     allocSize=size;
-    cout << "Memory Allocated: " << size <<" "<< getId()<< endl;
+    if(verbose)cout << "Memory Allocated: " << size <<" "<< getId()<< endl;
 }
 
 template<typename T>

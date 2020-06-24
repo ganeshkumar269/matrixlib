@@ -1,6 +1,6 @@
 template<typename T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T>& t){
-    cout << "Multiply by lvalue " << id << " " << t.getId()<< endl;
+    if(verbose)cout << "Multiply by lvalue " << id << " " << t.getId()<< endl;
     Dim dim1 = this->getDim() , dim2 = t.getDim();
     assert(dim1.second == dim2.first);
     Matrix<T> temp(dim1.first,dim2.second);
@@ -16,7 +16,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& t){
 
 template<typename T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T>& t){
-    cout << "Add by lvalue " << this->getId() << " " << t.getId()<< endl;
+    if(verbose)cout << "Add by lvalue " << this->getId() << " " << t.getId()<< endl;
     assert(this->getDim() == t.getDim());
     Matrix<T> temp(t.getDim());
     // for(uint32_t i=0;i<size();++i)
@@ -26,7 +26,7 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& t){
 }
 template<typename T>
 Matrix<T> Matrix<T>::operator+(Matrix<T>&& t){
-    cout << "Add by rvalue " << getId() << " " << t.getId()<< endl;
+    if(verbose)cout << "Add by rvalue " << getId() << " " << t.getId()<< endl;
     assert(this->getDim() == t.getDim());
     transform(this->getData(), this->getData()+this->m*this->n, t.getData(), t.getData(), plus<T>());
     return t;
@@ -34,7 +34,7 @@ Matrix<T> Matrix<T>::operator+(Matrix<T>&& t){
         
 template<typename T>
 Matrix<T> Matrix<T>::operator-(const Matrix<T>& t){
-    cout << "Subtract by lvalue "<< id << " " << t.getId() << endl;
+    if(verbose)cout << "Subtract by lvalue "<< id << " " << t.getId() << endl;
     assert(this->getDim() == t.getDim());
     Matrix<T> temp(t.getDim());
     transform(this->getData(), this->getData()+this->m*this->n, t.getData(), temp.getData(), minus<T>());
@@ -42,21 +42,21 @@ Matrix<T> Matrix<T>::operator-(const Matrix<T>& t){
 }
 template<typename T>
 Matrix<T> Matrix<T>::operator-(Matrix<T>&& t){
-    cout << "Subtract by rvalue " << endl;
+    if(verbose)cout << "Subtract by rvalue " << endl;
     assert(this->getDim() == t.getDim());
     transform(this->getData(), this->getData()+this->m*this->n, t.getData(), t.getData(), minus<T>());
     return t;
 }
 template<typename T>
 void Matrix<T>::operator = (const Matrix<T>& t){
-    cout << "Copy of Matrix "<< id << " " << t.getId() << endl;
+    if(verbose)cout << "Copy of Matrix "<< id << " " << t.getId() << endl;
     setDim(t.getDim());
     resize(t.size());
     copy(t.getData());
 }      
 template<typename T>
 void Matrix<T>::operator = (Matrix<T>&& t){
-    cout << "Move of Matrix "<< id << " " << t.getId() << endl;
+    if(verbose)cout << "Move of Matrix "<< id << " " << t.getId() << endl;
     setDim(t.getDim());
     allocSize = t.size();
     setData(t.getData());
