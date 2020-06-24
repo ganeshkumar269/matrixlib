@@ -28,7 +28,7 @@
             Matrix(Dim dim,T* data);
             Matrix(uint32_t m,uint32_t n,T* data);
             Matrix(uint32_t m,uint32_t n, T t);
-            ~Matrix(){cout << "Matrix Deleted " << getId() << endl;delete[] arr; cout << "Memory deallocated: "<< allocSize << endl; }
+            ~Matrix(void);
             static Matrix nMatrix(uint32_t m , uint32_t n, T f){Matrix<T> t(m,n,f);return t;}
 
         //Access Functions

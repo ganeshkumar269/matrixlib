@@ -4,3 +4,4 @@ test.cpp
 matrix.o
 cust_rand_gen.hpp
 out.txt
+.vscode/

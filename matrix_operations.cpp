@@ -1,7 +1,4 @@
 template<typename T>
-T Matrix<T>::operator()(uint32_t _m,uint32_t _n)const{return this->getElement(_m,_n);}
-template<typename T>
-T Matrix<T>::operator()(uint32_t _m,uint32_t _n,T t){return this->setElement(_m,_n,t);}template<typename T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T>& t){
     cout << "Multiply by lvalue " << id << " " << t.getId()<< endl;
     Dim dim1 = this->getDim() , dim2 = t.getDim();
@@ -50,6 +47,7 @@ Matrix<T> Matrix<T>::operator-(Matrix<T>&& t){
     transform(this->getData(), this->getData()+this->m*this->n, t.getData(), t.getData(), minus<T>());
     return t;
 }
+template<typename T>
 void Matrix<T>::operator = (const Matrix<T>& t){
     cout << "Copy of Matrix "<< id << " " << t.getId() << endl;
     setDim(t.getDim());
@@ -64,6 +62,3 @@ void Matrix<T>::operator = (Matrix<T>&& t){
     setData(t.getData());
     t.resetData();
 }      
-
-
-

@@ -16,7 +16,7 @@ Matrix<T>::Matrix(Dim dim):Matrix(dim.first,dim.second){}
 template<typename T>
 Matrix<T>::Matrix(const Matrix<T>& t):Matrix(t.getDim()){
     cout << "constructor: Copy of Matrix "<< id << " " << t.getId() << endl;
-    this->setData(t.getData());
+    copy_n(t.getData(),m*n,getData());
 }
 template<typename T>
 Matrix<T>::Matrix(Matrix<T>&& t):Matrix(t.getDim()){
@@ -30,3 +30,5 @@ template<typename T>
 Matrix<T>::Matrix(uint32_t m,uint32_t n,T* data):Matrix(m,n){this->setData(data);}
 template<typename T>
 Matrix<T>::Matrix(uint32_t m,uint32_t n, T t):Matrix(m,n){fill(t);}
+template<typename T>
+Matrix<T>::~Matrix(){cout << "Matrix Deleted " << getId() << endl;delete[] arr; cout << "Memory deallocated: "<< allocSize << endl; }

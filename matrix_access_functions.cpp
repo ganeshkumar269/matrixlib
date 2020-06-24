@@ -7,6 +7,10 @@ T Matrix<T>::getElement(uint32_t _m,uint32_t _n)const {return arr[(_m*this->n) +
 template<typename T>
 T Matrix<T>::setElement(uint32_t _m,uint32_t _n,T t){arr[(_m*this->n) + _n] = t; return t;}
 template<typename T>
+T Matrix<T>::operator()(uint32_t _m,uint32_t _n)const{return this->getElement(_m,_n);}
+template<typename T>
+T Matrix<T>::operator()(uint32_t _m,uint32_t _n,T t){return this->setElement(_m,_n,t);}
+template<typename T>
 Dim Matrix<T>::getDim()const {return {this->m,this->n};}
 template<typename T>
 void Matrix<T>::setDim(Dim dim){this->m = dim.first;this->n = dim.second;}

@@ -31,5 +31,3 @@ void Matrix<T>::print(ostream& out,char sep,string tip)const {
         out << tip[1] << endl;
     }
 } 
-
-template<typename T>
