@@ -76,8 +76,7 @@ Matrix<T> Matrix<T>::transpose(const Matrix<T>& t){
 }
 template<typename T>
 void Matrix<T>::transpose(){
-// https://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/
-//Incorrect Implementation
+    // https://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/
     Dim d = getDim();
     uint _size = this->size();
     vector<bool> changed(_size,false);
@@ -95,3 +94,45 @@ void Matrix<T>::transpose(){
     }
     setDim({d.second,d.first});
 }
+
+
+
+
+template<typename T>
+T Matrix<T>::det(){ 
+//https://www.geeksforgeeks.org/determinant-of-a-matrix/
+	T num1,num2,det = 1,index,total = 1;
+	T temp[n + 1]; 
+	Dim dim = getDim();
+    Matrix tempMatrix(dim,getData());
+	for(uint i = 0; i < dim.first; i++) 
+	{ 
+		index = i;
+		while(tempMatrix.getElement(index,i) == 0 && index < dim.first)
+			index++;	 
+		if(index == dim.first)  
+            continue; 
+		if(index != i) 
+		{ 
+			for(uint j = 0; j < dim.first; j++){
+                T _t = tempMatrix.getElement(index,j);
+                tempMatrix.setElement(index,j,tempMatrix.getElement(i,j));
+                tempMatrix.setElement(i,j,_t);
+            }
+            det = det*pow(-1,index-i);	 
+    	} 
+        for(int j = 0; j < n; j++) 
+            temp[j] = tempMatrix.getElement(i,j); 
+        for(int j = i+1; j < n; j++) 
+        { 
+            num1 = temp[i]; //value of diagonal element 
+            num2 = tempMatrix.getElement(j,i); //value of next row element 
+            for(uint k = 0; k < dim.first; k++) 
+                tempMatrix.setElement(j,k, (num1 * tempMatrix.getElement(j,k)) - (num2 * temp[k])); 
+            total = total * num1; // Det(kA)=kDet(A); 
+        }           
+    }        
+	for(int i = 0; i < n; i++) 
+		det = det * tempMatrix.getElement(i,i); 
+	return (det/total);
+} 

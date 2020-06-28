@@ -9,8 +9,8 @@ int main(){
         Matrix<int> m2;
         m2 = Matrix<int>::transpose(m1);
         bool flag=true;
-        for(int i =0 ; i < 2;i++)
-        for(int j =0 ; j < 4;j++){
+        for(int i =0 ; i < 4;i++)
+        for(int j =0 ; j < 2;j++){
             if(m2.getElement(i,j) != m1.getElement(j,i)){
                 cout << "TRANSPOSE_TEST a FAILED" << endl;
                 flag = false;

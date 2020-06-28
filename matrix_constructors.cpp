@@ -34,7 +34,7 @@ Matrix<T>::Matrix(Matrix<T>&& t):Matrix(t.getDim()){
     t.resetData();
 }
 template<typename T>
-Matrix<T>::Matrix(Dim dim,T* data):Matrix(dim){this->setData(data);}
+Matrix<T>::Matrix(Dim dim,T* data):Matrix(dim){this->copy(data);}
 template<typename T>
 Matrix<T>::Matrix(uint32_t m,uint32_t n,T* data):Matrix(m,n){this->copy(data);}
 template<typename T>
