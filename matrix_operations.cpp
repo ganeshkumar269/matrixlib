@@ -83,13 +83,15 @@ void Matrix<T>::transpose(){
     vector<bool> changed(_size,false);
     uint i = 1;
     while(i < _size-1){
-        uint oldValIndex = i;
-        uint newValIndex = (i*d.first) % (_size - 1); 
-        while(changed[i])
-            oldValIndex = (i*d.second) % (_size-1);  
-        swap(arr[oldValIndex],arr[newValIndex]);
-        changed[newValIndex] = true;
-        i++;
+        uint cycleBegin = i;
+        T tmp = arr[i];
+        do{
+            uint newValIndex = (i*d.first) % (_size - 1); 
+            swap(tmp,arr[newValIndex]);
+            changed[i] = true;
+            i = newValIndex;
+        }while(i != cycleBegin);
+        for(i = 1; i < _size-1 && changed[i];i++);
     }
     setDim({d.second,d.first});
 }
