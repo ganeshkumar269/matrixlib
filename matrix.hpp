@@ -10,6 +10,11 @@
     using namespace std;
     typedef pair<uint32_t,uint32_t> Dim;
     // RandGen randgen; 
+    struct PrintStyle{
+        char sep;
+        char end;
+        char tip[2];
+    };
     template <typename T>
     class Matrix{
         private:
@@ -19,6 +24,7 @@
             uint32_t allocSize;
             int id;
             static int id_gen;
+            PrintStyle printStyle;
         public:
         //Constructors
             static bool verbose;
@@ -60,7 +66,10 @@
             void dealloc();
             void resize(uint32_t size); //only place where allocMem is called
             uint32_t size()const;
-            void print(ostream& out = std::cout,char sep = ' ',string tip = "  ")const; 
+            void print(ostream& out = std::cout)const; 
+            void setPrintStyle(PrintStyle printStyle);
+            void setPrintStyle(char sep,char end,const char tip[2]);
+            PrintStyle getPrintStyle()const;
             friend ostream& operator << (ostream& out, const Matrix<T>& t){t.print(out);return out;}
             void operator = (const Matrix<T>& t);
             void operator = (Matrix<T>&& t);

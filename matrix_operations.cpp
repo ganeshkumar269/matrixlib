@@ -52,6 +52,7 @@ void Matrix<T>::operator = (const Matrix<T>& t){
     if(verbose)cout << "Copy of Matrix "<< id << " " << t.getId() << endl;
     setDim(t.getDim());
     resize(t.size());
+    setPrintStyle(t.getPrintStyle());
     copy(t.getData());
 }      
 template<typename T>
@@ -60,6 +61,7 @@ void Matrix<T>::operator = (Matrix<T>&& t){
     setDim(t.getDim());
     allocSize = t.size();
     setData(t.getData());
+    setPrintStyle(t.getPrintStyle());
     t.resetData();
 }      
 template<typename T>
@@ -67,10 +69,27 @@ Matrix<T> Matrix<T>::transpose(const Matrix<T>& t){
     Dim d = t.getDim();
     Matrix<T> tempMatrix(d.second,d.first);    
     for(uint i =0 ;i < d.first;i++)
-    for(uint j =i ;j < d.second;j++){
-        T tmp = t.getElement(i,j);
-        tempMatrix.setElement(i,j,t.getElement(j,i));
-        tempMatrix.setElement(j,i,tmp);
+    for(uint j =0 ;j < d.second;j++){
+        tempMatrix(j,i,t.getElement(i,j));
     }
     return tempMatrix;
+}
+template<typename T>
+void Matrix<T>::transpose(){
+// https://www.geeksforgeeks.org/inplace-m-x-n-size-matrix-transpose/
+//Incorrect Implementation
+    Dim d = getDim();
+    uint _size = this->size();
+    vector<bool> changed(_size,false);
+    uint i = 1;
+    while(i < _size-1){
+        uint oldValIndex = i;
+        uint newValIndex = (i*d.first) % (_size - 1); 
+        while(changed[i])
+            oldValIndex = (i*d.second) % (_size-1);  
+        swap(arr[oldValIndex],arr[newValIndex]);
+        changed[newValIndex] = true;
+        i++;
+    }
+    setDim({d.second,d.first});
 }

@@ -19,12 +19,19 @@ T* Matrix<T>::getData()const {return this->arr;};
 template<typename T>
 void Matrix<T>::setData(T*const data){dealloc();arr = data;}   
 template<typename T>
-void Matrix<T>::copy(const T* const data){std::copy(data,data+m*n,arr);}
+void Matrix<T>::copy(const T* const data){
+    std::copy(data,data+m*n,arr);
+}
 template<typename T>
 void Matrix<T>::resetData(){
     arr = nullptr;
     m = 0;n = 0;allocSize=0;
 }
 template<typename T>
-void Matrix<T>::fill(T t){std::fill(this->arr,arr+this->m*this->n,t);}
+void Matrix<T>::fill(const T t){
+    uint _size = this->size();
+    for(uint itr = 0; itr < _size;++itr)
+        arr[itr] = T(t);    
+    // std::fill(this->arr,arr+this->m*this->n,t);
+}
 
