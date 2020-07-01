@@ -25,7 +25,7 @@ void Matrix<T>::copy(const T* const data){
 template<typename T>
 void Matrix<T>::resetData(){
     arr = nullptr;
-    m = 0;n = 0;allocSize=0;
+    m = 0;n = 0;
 }
 template<typename T>
 void Matrix<T>::fill(const T t){

@@ -13,9 +13,9 @@ int main(){
         Matrix<int> m(4,4,arr);
         int val = m.det();
         if(val != 30)
-            cout << "ADD_TEST FAILED" << endl;
+            cout << "DET_TEST FAILED" << endl;
         else 
-            cout << "ADD_TEST PASSED" << endl;
+            cout << "DET_TEST PASSED" << endl;
     }
     return 0;
 }
