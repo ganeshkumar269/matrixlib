@@ -1,6 +1,5 @@
 template<typename T>
 uint32_t Matrix<T>::size()const{return m*n;}
-
 template<typename T>
 void Matrix<T>::print(ostream& out)const {
     for(uint32_t i = 0;i < m;++i){
@@ -27,3 +26,9 @@ void Matrix<T>::setPrintStyle(char sep,char end,const char tip[2]){
 }
 template<typename T>
 PrintStyle Matrix<T>::getPrintStyle()const{return printStyle;}
+template<typename T>
+Matrix<T> Matrix<T>::Identity(uint n){
+    Matrix<T> temp(n,n,T(0));
+    for(uint itr =0;itr<n;++itr) temp.setElement(itr,itr,1);
+    return temp;
+}

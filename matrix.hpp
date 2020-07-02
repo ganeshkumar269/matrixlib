@@ -60,31 +60,31 @@
             Matrix operator-(Matrix<T>&& t);
             void operator = (const Matrix<T>& t);
             void operator = (Matrix<T>&& t);
+
         //Operations
             T det();
             static Matrix<T> transpose(const Matrix& t); // return transpose of the argument 
             void transpose(); // transpose of current matrix
+            static Matrix<T> dot(Matrix& t1,Matrix& t2);
+            void dot(Matrix& t); //dot product with t (Hadamard product)
 
         //Memory Management
             void alloc(uint32_t size);
             void dealloc();
-            void resize(uint32_t size); //only place where allocMem is called
-            uint32_t size()const;
+            void resize(uint32_t size); //only place where alloc is called
 
         //Utils
+            uint32_t size()const;
             void print(ostream& out = std::cout)const; 
             void setPrintStyle(PrintStyle printStyle);
             void setPrintStyle(char sep,char end,const char tip[2]);
             PrintStyle getPrintStyle()const;
             friend ostream& operator << (ostream& out, const Matrix<T>& t){t.print(out);return out;}
-            
+            static Matrix Identity(uint32_t n); //return identity matrix of size n 
             
         //To Do
             static Matrix<T> inverse(Matrix& t); // return inverse of the argument 
             void inverse(); // inverse of current matrix
-            static Matrix<T> dot(Matrix& t1,Matrix& t2);
-            void dot(Matrix& t); //dot product with t (Hadamard product)
-            static Matrix Identity(uint32_t n); //return identity matrix of size n 
     };
 #include "matrix.cpp"
 #endif
