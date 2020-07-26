@@ -71,12 +71,12 @@ T Matrix<T>::det(){
 	return (det/total);
 } 
 template<typename T>
-void Matrix<T>::dot(Matrix<T>&t){
+void Matrix<T>::dot(const Matrix<T>&t){
     assert(this->getDim() == t.getDim());
     transform(getData(),getData()+size(),t.getData(),getData(),multiplies<T>());
 }
 template<typename T>
-Matrix<T> Matrix<T>::dot(Matrix<T>&t1,Matrix<T>&t2){
+Matrix<T> Matrix<T>::dot(const Matrix<T>&t1,const Matrix<T>&t2){
     assert(t1.getDim() == t2.getDim());
     Matrix<T> temp(t1.getDim());
     transform(t1.getData(),t1.getData()+t1.size(),t2.getData(),temp.getData(),multiplies<T>());

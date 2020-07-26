@@ -12,7 +12,6 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& t){
             temp.setElement(i,j,sum);   
         }
     return temp;
-    // return std::exchange(temp,Matrix<T>());
 }
 
 template<typename T>

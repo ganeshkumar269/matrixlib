@@ -4,7 +4,7 @@ template<typename T>
 bool Matrix<T>::verbose = true;
 template<typename T>
 Matrix<T>::Matrix():m(0),n(0),allocSize(0),arr(nullptr){
-    setPrintStyle(' ',' ',"[]");
+    setPrintStyle(' ','\n',"[]");
     if(verbose)cout << "Matrix reference created,id: ";
     generateId(); 
     if(verbose)cout << getId() <<'\n';
@@ -31,9 +31,9 @@ Matrix<T>::Matrix(Matrix<T>&& t):Matrix(t.getDim()){
     t.resetData();
 }
 template<typename T>
-Matrix<T>::Matrix(Dim dim,T* data):Matrix(dim){this->copy(data);}
+Matrix<T>::Matrix(Dim dim,const T* const data):Matrix(dim){this->copy(data);}
 template<typename T>
-Matrix<T>::Matrix(uint32_t m,uint32_t n,T* data):Matrix(m,n){this->copy(data);}
+Matrix<T>::Matrix(uint32_t m,uint32_t n,const T* const data):Matrix(m,n){this->copy(data);}
 template<typename T>
 Matrix<T>::Matrix(uint32_t m,uint32_t n, T t):Matrix(m,n){this->fill(t);}
 template<typename T>

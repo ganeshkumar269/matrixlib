@@ -31,10 +31,10 @@
             Matrix(Dim dim);
             Matrix(const Matrix<T>& t);
             Matrix(Matrix<T>&& t);
-            Matrix(Dim dim,T* data);
-            Matrix(uint32_t m,uint32_t n,T* data);
+            Matrix(Dim dim,const T* const data);
+            Matrix(uint32_t m,uint32_t n,const T* const data);
             Matrix(uint32_t m,uint32_t n, T t);
-            ~Matrix(void);
+            ~Matrix();
             static Matrix nMatrix(uint32_t m , uint32_t n, T f){Matrix<T> t(m,n,f);return t;}
 
         //Access Functions
@@ -45,6 +45,7 @@
             T* getData()const;
             void setData(T* const data);
             void copy(const T* const data);
+            void copy_n(const T* const data,uint n);
             void resetData();
             void fill(T t);
             T getElement(uint32_t m,uint32_t n)const;
@@ -65,8 +66,8 @@
             T det();
             static Matrix<T> transpose(const Matrix& t); // return transpose of the argument 
             void transpose(); // transpose of current matrix
-            static Matrix<T> dot(Matrix& t1,Matrix& t2);
-            void dot(Matrix& t); //dot product with t (Hadamard product)
+            static Matrix<T> dot(const Matrix& t1,const Matrix& t2);
+            void dot(const Matrix& t); //dot product with t (Hadamard product)
 
         //Memory Management
             void alloc(uint32_t size);

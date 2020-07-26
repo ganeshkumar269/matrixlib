@@ -3,7 +3,7 @@ void Matrix<T>::generateId(){id = id_gen++;}
 template<typename T>
 int Matrix<T>::getId()const{return id;}
 template<typename T>
-T Matrix<T>::getElement(uint32_t _m,uint32_t _n)const {return arr[(_m*this->n) + _n];}
+T Matrix<T>::getElement(uint32_t _m,uint32_t _n)const {return arr[(_m*this->n) + _n];}  
 template<typename T>
 T Matrix<T>::setElement(uint32_t _m,uint32_t _n,T t){arr[(_m*this->n) + _n] = t; return t;}
 template<typename T>
@@ -23,6 +23,10 @@ void Matrix<T>::copy(const T* const data){
     std::copy(data,data+m*n,arr);
 }
 template<typename T>
+void Matrix<T>::copy_n(const T* const data,uint n){
+    std::copy_n(data,m*n,arr);
+}
+template<typename T>
 void Matrix<T>::resetData(){
     arr = nullptr;
     m = 0;n = 0;
@@ -34,4 +38,3 @@ void Matrix<T>::fill(const T t){
         arr[itr] = T(t);    
     // std::fill(this->arr,arr+this->m*this->n,t);
 }
-
